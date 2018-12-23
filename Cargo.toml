@@ -5,3 +5,5 @@ authors = ["lazylife7157 <lazylife7157@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+exitfailure = "*"
+structopt = "0.2"
