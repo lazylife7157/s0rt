@@ -9,11 +9,11 @@ use structopt::StructOpt;
 #[derive(StructOpt, Debug)]
 #[structopt()]
 struct Opt {
-    /// Algorithm
+    /// Sorting algorithm
     #[structopt(short = "a", long = "algorithm")]
     algorithm: String,
 
-    /// Output file
+    /// Write result to file instead of standard output
     #[structopt(short = "o", long = "output", parse(from_os_str))]
     output: PathBuf,
 
