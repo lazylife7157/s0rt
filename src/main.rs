@@ -3,7 +3,7 @@ extern crate structopt;
 use std::io::{self, Write};
 use exitfailure::ExitFailure;
 
-use s0rt::algorithms::stalin;
+use s0rt::algorithms::{stalin, bogo};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -31,6 +31,7 @@ fn main() -> Result<(), ExitFailure> {
     let opt = Opt::from_args();
     let sort = match opt.algorithm.as_ref() {
         "stalin" => stalin::sort,
+        "bogo" => bogo::sort,
         _ => stalin::sort
     };
 
