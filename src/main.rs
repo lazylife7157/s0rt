@@ -11,7 +11,7 @@ use structopt::StructOpt;
 #[structopt()]
 struct Opt {
     /// Sorting algorithm
-    #[structopt(short = "a", long = "algorithm")]
+    #[structopt(short = "a", long = "algorithm", default_value="stalin")]
     algorithm: String,
 
     /// Write result to file instead of standard output
