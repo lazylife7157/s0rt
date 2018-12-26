@@ -15,8 +15,8 @@ struct Opt {
     algorithm: String,
 
     /// Write result to file instead of standard output
-    #[structopt(short = "o", long = "output", parse(from_os_str), default_value = "")]
-    output: PathBuf,
+    #[structopt(short = "o", long = "output", parse(from_os_str))]
+    output: Option<PathBuf>,
 
     /// Reverse the result of comparison
     #[structopt(short = "r", long="reverse")]
@@ -37,8 +37,8 @@ fn main() -> Result<(), ExitFailure> {
     };
 
     let stdout = io::stdout();
-    let mut handle: io::BufWriter<Box<dyn Write>> = match opt.output.to_str() {
-        Some(path) if path != "" => {
+    let mut handle: io::BufWriter<Box<dyn Write>> = match opt.output {
+        Some(path) => {
             let file = std::fs::File::open(path)?;
             io::BufWriter::new(Box::new(file))
         }
