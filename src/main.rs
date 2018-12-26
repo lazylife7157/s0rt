@@ -29,7 +29,7 @@ struct Opt {
 
 fn main() -> Result<(), ExitFailure> {
     let opt = Opt::from_args();
-    let sort = match opt.algorithm.as_ref() {
+    let sort = match opt.algorithm.as_str() {
         "stalin" => stalin::sort,
         "bogo" => bogo::sort,
         _ => stalin::sort
