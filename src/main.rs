@@ -3,7 +3,7 @@ extern crate structopt;
 use std::io::{self, Write};
 use exitfailure::ExitFailure;
 
-use s0rt::algorithms::{stalin, bogo};
+use s0rt::algorithms::{get_compare_fn, stalin, bogo};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -27,6 +27,7 @@ struct Opt {
     files: Vec<PathBuf>,
 }
 
+
 fn main() -> Result<(), ExitFailure> {
     let opt = Opt::from_args();
     let sort = match opt.algorithm.as_str() {
@@ -47,11 +48,12 @@ fn main() -> Result<(), ExitFailure> {
         }
     };
 
+    let cmp = get_compare_fn(opt.reverse);
     for file in opt.files.iter() {
         let strings: String = std::fs::read_to_string(file)?;
         let lines: Vec<String> = strings.lines().map(String::from).collect();
 
-        for line in sort(&lines, opt.reverse) {
+        for line in sort(&lines, &cmp) {
             writeln!(handle, "{}", line)?;
         }
     }
