@@ -31,7 +31,7 @@ fn main() -> Result<(), ExitFailure> {
     };
 
     let stdout = io::stdout();
-    let mut handle: io::BufWriter<Box<Write>> = match opt.output.to_str() {
+    let mut handle: io::BufWriter<Box<dyn Write>> = match opt.output.to_str() {
         Some(path) if path != "" => {
             let file = std::fs::File::open(path)?;
             io::BufWriter::new(Box::new(file))
