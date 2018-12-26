@@ -18,6 +18,10 @@ struct Opt {
     #[structopt(short = "o", long = "output", parse(from_os_str), default_value = "")]
     output: PathBuf,
 
+    /// Reverse the result of comparison
+    #[structopt(short = "r", long="reverse")]
+    reverse: bool,
+
     /// Files to process
     #[structopt(name = "FILE", parse(from_os_str))]
     files: Vec<PathBuf>,
@@ -46,7 +50,7 @@ fn main() -> Result<(), ExitFailure> {
         let strings: String = std::fs::read_to_string(file)?;
         let lines: Vec<String> = strings.lines().map(String::from).collect();
 
-        for line in sort(&lines) {
+        for line in sort(&lines, opt.reverse) {
             writeln!(handle, "{}", line)?;
         }
     }
