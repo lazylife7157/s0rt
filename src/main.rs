@@ -3,7 +3,7 @@ extern crate structopt;
 use std::io::{self, Write};
 use exitfailure::ExitFailure;
 
-use s0rt::algorithms::{get_compare_fn, stalin, bogo};
+use s0rt::algorithms::{get_compare_fn, stalin, bogo, sleep};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -17,6 +17,10 @@ struct Opt {
     /// Write result to file instead of standard output
     #[structopt(short = "o", long = "output", parse(from_os_str))]
     output: Option<PathBuf>,
+
+    /// Compare according to general numerical value
+    #[structopt(short = "g", long="general_numeric_sort")]
+    general_numeric_sort: bool,
 
     /// Reverse the result of comparison
     #[structopt(short = "r", long="reverse")]
@@ -33,6 +37,7 @@ fn main() -> Result<(), ExitFailure> {
     let sort = match opt.algorithm.as_str() {
         "stalin" => stalin::sort,
         "bogo" => bogo::sort,
+        "sleep" => sleep::sort,
         _ => stalin::sort
     };
 
