@@ -1,13 +1,27 @@
-use std::cmp::Ordering::{self, Greater};
+use std::cmp::Ordering::{Less, Greater};
 
-pub fn sort(v: &Vec<String>, cmp: &Box<Fn(&String, &String) -> Ordering>) -> Vec<String> {
-    let mut sorted = v.clone();
-    let mut count = 0;
-    for (i, b) in v.iter().skip(1).enumerate() {
-        let a = &sorted[i - count];
-        if cmp(a, b) == Greater {
-            sorted.remove(i - count + 1);
-            count += 1;
+use crate::algorithms::{key, cmp_by};
+
+pub fn stalin_sort<T>(list: &Vec<T>, reverse: bool, numeric: bool) -> Vec<T>
+        where T: ToString + Clone {
+
+    let order = if reverse { Less } else { Greater };
+    let mut sorted = list.clone();
+    let mut i = 1;
+
+    while i < sorted.len() {
+        let a = &sorted[i - 1];
+        let b = &sorted[i];
+        let is_dead = if numeric {
+            cmp_by(a, b, key::as_numeric)
+        } else {
+            cmp_by(a, b, key::as_string)
+        } == order;
+
+        if is_dead {
+            sorted.remove(i);
+        } else {
+            i += 1;
         }
     }
 

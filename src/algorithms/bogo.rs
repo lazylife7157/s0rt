@@ -1,26 +1,29 @@
 extern crate rand;
 
-use std::cmp::Ordering::{self, Greater};
 use rand::thread_rng;
 use rand::seq::SliceRandom;
 
-fn is_sorted(v: &Vec<String>, cmp: &Box<Fn(&String, &String) -> Ordering>) -> bool {
-    for i in 1..v.len() {
-        if cmp(&v[i - 1], &v[i]) == Greater {
-            return false;
-        }
-    }
+use crate::algorithms::{key, is_sorted_by};
 
-    true
+pub fn bogo_sort<T>(list: &Vec<T>, reverse: bool, numeric: bool) -> Vec<T>
+        where T: ToString + Clone {
+
+    let mut sorted = list.clone();
+    let mut rng = thread_rng();
+
+    while !is_sorted(&sorted, reverse, numeric) {
+        sorted.shuffle(&mut rng);
+    };
+
+    sorted
 }
 
-pub fn sort(v: &Vec<String>, cmp: &Box<Fn(&String, &String) -> std::cmp::Ordering>) -> Vec<String> {
-    let mut sorted = v.clone();
-	let mut rng = thread_rng();
+fn is_sorted<T>(list: &Vec<T>, reverse: bool, numeric: bool) -> bool
+        where T: ToString + Clone {
 
-    while !is_sorted(&sorted, cmp) {
-		sorted.shuffle(&mut rng);
+    if numeric {
+        is_sorted_by(list, key::as_numeric, reverse)
+    } else {
+        is_sorted_by(list, key::as_string, reverse)
     }
-
-	sorted
 }
