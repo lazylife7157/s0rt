@@ -1,9 +1,13 @@
 extern crate structopt;
 
+pub use self::algorithms::stalin_sort;
+pub use self::algorithms::bogo_sort;
+pub use self::algorithms::sleep_sort;
+
 use std::path::PathBuf;
 use structopt::StructOpt;
 
-pub mod algorithms;
+mod algorithms;
 
 #[derive(StructOpt, Debug)]
 #[structopt()]

@@ -5,7 +5,7 @@ use exitfailure::ExitFailure;
 use structopt::StructOpt;
 
 use s0rt::Opt;
-use s0rt::algorithms::{
+use s0rt::{
     stalin_sort,
     bogo_sort,
     sleep_sort

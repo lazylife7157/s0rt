@@ -1,6 +1,6 @@
 extern crate s0rt;
 
-use s0rt::algorithms::{
+use s0rt::{
     stalin_sort,
     bogo_sort,
     sleep_sort
