@@ -19,19 +19,27 @@ fn main() -> Result<(), ExitFailure> {
         None => Box::new(stdout.lock())
     });
 
+    let mut list: Vec<String> = Vec::new();
     for file in opt.files.iter() {
-        let strings: String = std::fs::read_to_string(file)?;
-        let lines: Vec<String> = strings.lines().map(String::from).collect();
-        let sorted = match opt.algorithm.as_str() {
-            "stalin" => stalin_sort(&lines, opt.reverse, opt.general_numeric_sort),
-            "bogo" => bogo_sort(&lines, opt.reverse, opt.general_numeric_sort),
-            "sleep" => sleep_sort(&lines),
-            _ => stalin_sort(&lines, opt.reverse, opt.general_numeric_sort),
-        };
+        let mut lines: Vec<String> =
+            std::fs::read_to_string(file)?
+                .lines()
+                .map(String::from)
+                .collect();
 
-        for line in sorted {
-            writeln!(handle, "{}", line)?;
-        }
+        list.append(&mut lines);
     }
+
+    let sorted = match opt.algorithm.as_str() {
+        "stalin" => stalin_sort(&list, opt.reverse, opt.general_numeric_sort),
+        "bogo" => bogo_sort(&list, opt.reverse, opt.general_numeric_sort),
+        "sleep" => sleep_sort(&list),
+        _ => stalin_sort(&list, opt.reverse, opt.general_numeric_sort),
+    };
+
+    for line in sorted {
+        writeln!(handle, "{}", line)?;
+    }
+
     Ok(())
 }
